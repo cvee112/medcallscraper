@@ -16,7 +16,7 @@ Before you begin, you need to get two secret keys from Telegram so the script ca
 
 ### Get your Telegram API Credentials
 1.  Go to **[my.telegram.org](https://my.telegram.org)** in your web browser.
-2.  Enter your phone number (e.g., `+123456789`) and click **Next**.
+2.  Enter your phone number (e.g., `+631234567890`) and click **Next**.
 3.  Telegram will send a confirmation code to your **Telegram App** (not SMS). Enter that code on the website.
 4.  Click on **API development tools**.
 5.  Fill in the form:
