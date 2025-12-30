@@ -74,19 +74,19 @@ We use a library called `Telethon` to talk to Telegram. Install it by running:
 
 Go back to your **Terminal**. Make sure you are still in the folder:
 
-cd ~/Desktop/QuizScraper
+`cd ~/Desktop/QuizScraper`
 
 ### Option A: Fresh Start (First Time)
 If you have never run the backup before, use this command. It will create a new file called `my_backup.csv`.
 
-python3 scraper.py -o my_backup.csv
+`python3 scraper.py -o my_backup.csv`
 
 * **First Run Note:** The script will ask for your phone number and the login code sent to your Telegram app. This is a one-time login.
 
 ### Option B: Update Existing Backup (Smart Merge)
 If you already have a file (e.g., `my_backup.csv`) and want to fetch **new questions** or update missing tags, run this:
 
-python3 scraper.py -i my_backup.csv -o my_backup_updated.csv
+`python3 scraper.py -i my_backup.csv -o my_backup_updated.csv`
 
 * `-i`: Input file (your old backup).
 * `-o`: Output file (the new, updated file).
