@@ -34,23 +34,23 @@ Before you begin, you need to get two secret keys from Telegram so the script ca
 ### Step 1: Create a Work Folder
 Open the **Terminal** app on your Mac (press `Cmd + Space` and type "Terminal"). Copy and paste these commands one by one, pressing **Enter** after each:
 
-# Create a new folder on your Desktop
-mkdir -p ~/Desktop/QuizScraper
+# Create a new folder on your Desktop (or any folder of your choice)
+`mkdir -p ~/Desktop/QuizScraper`
 
 # Go inside that folder
-cd ~/Desktop/QuizScraper
+`cd ~/Desktop/QuizScraper`
 
 ### Step 2: Check Python
 Macs usually come with Python installed. Check if you have it by running:
 
-python3 --version
+`python3 --version`
 
 *If you see an error, download and install Python from [python.org](https://www.python.org/downloads/).*
 
 ### Step 3: Install the Library
 We use a library called `Telethon` to talk to Telegram. Install it by running:
 
-pip3 install telethon
+`pip3 install telethon`
 
 ### Step 4: Save the Script
 1.  Download the `scraper.py` file from this repository and save it into the `QuizScraper` folder on your Desktop.
