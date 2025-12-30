@@ -65,7 +65,7 @@ We use a library called `Telethon` to talk to Telegram. Install it by running:
     ```
 4.  Replace `'YOUR_API_ID'` with the number from the Telegram website.
 5.  Replace `'YOUR_API_HASH'` with the long code from the Telegram website.
-6.  Replace `'YOUR_CHANNEL_LINK'` with the username of the channel (e.g., `'myqbank'` or `'https://t.me/myqbank'`) - the script uses the Active Medcall link by default.
+6.  Replace `'YOUR_CHANNEL_LINK'` with the link to the channel (e.g., `'https://t.me/myqbank'`).
 7.  **Save the file** (`Cmd + S`) and close TextEdit/editor.
 
 ---
