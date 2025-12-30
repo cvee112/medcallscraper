@@ -10,7 +10,7 @@ from telethon.tl.types import MessageMediaPoll
 # --- CONFIGURATION ---
 api_id = 'YOUR_API_ID'       
 api_hash = 'YOUR_API_HASH'   
-channel_username = 'https://t.me/+WEHp0n5fJCw5MWM1' # Active Medcall
+channel_username = 'YOUR_CHANNEL_LINK' 
 # ---------------------
 
 def get_text(text_obj):
@@ -47,7 +47,6 @@ def load_existing_data(filename):
 
 def save_to_csv(data, filename):
     if not data: return
-    # Added 'Question Number' to headers
     headers = ['ID', 'Question Number', 'Date', 'Topic', 'Tags', 'Question', 'Correct Answer', 'Explanation', 
                'Option 1', 'Option 2', 'Option 3', 'Option 4']
     
@@ -103,31 +102,44 @@ async def main(input_csv, output_csv):
                     last_context_text = ""
                     continue
 
-                # --- 1. EXTRACT TAGS, TOPIC, AND QUESTION NUMBER ---
+                # --- 1. EXTRACT METADATA (Tags, Topic, #, Case) ---
                 tags = []
                 topic = ""
-                question_number = "" # <--- NEW
+                question_number = "" 
+                case_text = ""
                 
                 if last_context_text:
-                    # 1. Extract Tags
+                    # Tags
                     tags = re.findall(r'(#\w+)', last_context_text)
                     
-                    # 2. Extract Topic
+                    # Topic
                     topic_match = re.search(r'Topic:\s*(.+)', last_context_text, re.IGNORECASE)
                     if topic_match:
                         topic = topic_match.group(1).strip()
                         
-                    # 3. Extract Question Number (e.g. "Quiz 1367")
-                    # Looks for "Quiz" followed by spaces and then digits
+                    # Question Number
                     q_num_match = re.search(r'Quiz\s*(\d+)', last_context_text, re.IGNORECASE)
                     if q_num_match:
                         question_number = q_num_match.group(1)
-                        
+
+                    # CASE EXTRACTION (Look for "Case:" and grab until HINTS or End of string)
+                    # (?s) enables dot-matching-newlines so we grab the whole paragraph
+                    case_match = re.search(r'Case:\s*(.*?)(?:\n\s*(?:HINTS|REFERENCES)|$)', last_context_text, re.IGNORECASE | re.DOTALL)
+                    if case_match:
+                        case_text = case_match.group(1).strip()
+
                 last_context_text = ""
                 
+                # --- PREPARE QUESTION TEXT ---
+                # We always rebuild the question text to include the Case (if present)
+                raw_question = get_text(poll.question)
+                final_question_text = raw_question
+                
+                if case_text:
+                    final_question_text = f"Case: {case_text}\n\n{raw_question}"
+
                 # --- PREPARE VISUALS ---
                 status_label = ""
-                question_text = get_text(poll.question)
                 ans_text = "N/A"
                 expl_text = ""
                 
@@ -136,14 +148,17 @@ async def main(input_csv, output_csv):
                     # === FAST PATH (Update Old) ===
                     row = known_questions[message.id]
                     
-                    # Update metadata (including Question Number)
+                    # Update metadata columns
                     row['Topic'] = topic
                     row['Tags'] = ", ".join(tags)
-                    row['Question Number'] = question_number # <--- NEW
+                    row['Question Number'] = question_number 
+                    
+                    # UPDATE THE QUESTION TEXT (This appends the case to old rows)
+                    row['Question'] = final_question_text
                     
                     if 'Explanation' not in row: row['Explanation'] = ""
                     
-                    # For display purposes only
+                    # For display
                     ans_text = row.get('Correct Answer', 'N/A')
                     expl_text = row.get('Explanation', '')
                     status_label = "MERGE/UPDATE"
@@ -200,11 +215,11 @@ async def main(input_csv, output_csv):
 
                     row = {
                         'ID': message.id,
-                        'Question Number': question_number, # <--- NEW
+                        'Question Number': question_number,
                         'Date': message.date,
                         'Topic': topic,
                         'Tags': ", ".join(tags),
-                        'Question': question_text,
+                        'Question': final_question_text, # Contains Case + Q
                         'Correct Answer': ans_text,
                         'Explanation': expl_text,
                         'Option 1': options_text[0] if len(options_text) > 0 else "",
@@ -215,15 +230,15 @@ async def main(input_csv, output_csv):
                     processed_rows.append(row)
 
                 # --- 3. VERBOSE OUTPUT ---
-                clean_q = question_text.replace('\n', ' ')
+                clean_q = final_question_text.replace('\n', ' ')
                 clean_a = ans_text.replace('\n', ' ')
                 clean_e = expl_text.replace('\n', ' ')[:60] 
                 
-                # Update print to show Quiz #
                 q_num_display = f"#{question_number}" if question_number else "No #"
+                
                 print(f"[{status_label}] Quiz {q_num_display} | ID: {message.id}")
-                print(f"    Topic: {topic}")
-                print(f"    Q: {clean_q[:60]}...")
+                # print(f"    Topic: {topic}") # Optional: Uncomment to see topic
+                print(f"    Q: {clean_q[:80]}...") 
                 print(f"    A: {clean_a}")
                 if clean_e:
                     print(f"    E: {clean_e}...")
