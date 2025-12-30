@@ -14,7 +14,7 @@ A Python tool to backup quiz questions, correct answers, explanations, tags, and
 
 Before you begin, you need to get two secret keys from Telegram so the script can log in as you.
 
-### 1. Get your Telegram API Credentials
+### Get your Telegram API Credentials
 1.  Go to **[my.telegram.org](https://my.telegram.org)** in your web browser.
 2.  Enter your phone number (e.g., `+123456789`) and click **Next**.
 3.  Telegram will send a confirmation code to your **Telegram App** (not SMS). Enter that code on the website.
@@ -34,10 +34,10 @@ Before you begin, you need to get two secret keys from Telegram so the script ca
 ### Step 1: Create a Work Folder
 Open the **Terminal** app on your Mac (press `Cmd + Space` and type "Terminal"). Copy and paste these commands one by one, pressing **Enter** after each:
 
-# Create a new folder on your Desktop (or any folder of your choice)
+#### Create a new folder on your Desktop (or any folder of your choice)
 `mkdir -p ~/Desktop/QuizScraper`
 
-# Go inside that folder
+#### Go inside that folder
 `cd ~/Desktop/QuizScraper`
 
 ### Step 2: Check Python
@@ -54,7 +54,7 @@ We use a library called `Telethon` to talk to Telegram. Install it by running:
 
 ### Step 4: Save the Script
 1.  Download the `scraper.py` file from this repository and save it into the `QuizScraper` folder on your Desktop.
-2.  **Right-click** `scraper.py` and choose **Open With > TextEdit**.
+2.  **Right-click** `scraper.py` and choose **Open With > TextEdit** (or an editor/IDE of your choice).
 3.  Look for this section at the top:
     ```python
     # --- CONFIGURATION ---
@@ -65,8 +65,8 @@ We use a library called `Telethon` to talk to Telegram. Install it by running:
     ```
 4.  Replace `'YOUR_API_ID'` with the number from the Telegram website.
 5.  Replace `'YOUR_API_HASH'` with the long code from the Telegram website.
-6.  Replace `'YOUR_CHANNEL_LINK'` with the username of the channel (e.g., `'myqbank'` or `'https://t.me/myqbank'`).
-7.  **Save the file** (`Cmd + S`) and close TextEdit.
+6.  Replace `'YOUR_CHANNEL_LINK'` with the username of the channel (e.g., `'myqbank'` or `'https://t.me/myqbank'`) - the script uses the Active Medcall link by default.
+7.  **Save the file** (`Cmd + S`) and close TextEdit/editor.
 
 ---
 
