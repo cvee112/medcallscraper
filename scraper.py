@@ -8,9 +8,9 @@ from telethon import TelegramClient, functions, errors
 from telethon.tl.types import MessageMediaPoll
 
 # --- CONFIGURATION ---
-api_id = '39423662'       
-api_hash = 'c0963236030acdebc5465965d5f27dfd'   
-channel_username = 'https://t.me/+WEHp0n5fJCw5MWM1' 
+api_id = 'YOUR_API_ID'       
+api_hash = 'YOUR_API_HASH'   
+channel_username = 'https://t.me/+WEHp0n5fJCw5MWM1' # Active Medcall
 # ---------------------
 
 def get_text(text_obj):
